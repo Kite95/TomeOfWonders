@@ -27,7 +27,7 @@ public class WhirlicapItem extends ArmorItem {
         player.resetFallDistance();
 
         if (!onGround(player) && motion.y < 0.08 + 0.2 && !player.getCooldowns().isOnCooldown(stack.getItem())) {
-            if (flightTime >= 50) {
+            if (flightTime >= 60) {
                 player.getCooldowns().addCooldown(stack.getItem(), 180);
             } else if (player.jumping && !player.isCrouching()) {
                 this.flightTime++;
