@@ -45,7 +45,7 @@ public class WhirlicapModel extends HumanoidModel<LivingEntity> {
 	public WhirlicapModel withAnimations(LivingEntity entity) {
 		float partialTicks = Minecraft.getInstance().getFrameTime();
 		float rotation = entity.isInWaterOrBubble() ? 0.05F : (entity.level().isThundering() ? 0.5F : entity.level().isRaining() ? 0.2F : 0.1F);
-		float speed = entity.getDeltaMovement().y > 0.05D ? 3 * rotation : 1 * rotation;
+		float speed = entity.getDeltaMovement().y > 0.05D ? 4 * rotation : 1 * rotation;
 		this.whirligig.yRot = (entity.tickCount + partialTicks) * speed % ((float) Math.PI * 2F);
 		return this;
 	}

@@ -26,17 +26,17 @@ public class WhirlicapItem extends ArmorItem {
         Vec3 motion = player.getDeltaMovement();
         player.resetFallDistance();
 
-        if (!onGround(player) && motion.y < 0.08 + 0.2) {
-            if (player.jumping && !player.isCrouching() && flightTime <= 40) {
+        if (!onGround(player) && motion.y < 0.08 + 0.2 && !player.getCooldowns().isOnCooldown(stack.getItem())) {
+            if (flightTime >= 50) {
+                player.getCooldowns().addCooldown(stack.getItem(), 160);
+            } else if (player.jumping && !player.isCrouching()) {
                 this.flightTime++;
                 if (flightTime > 2) {
-                    player.setDeltaMovement(motion.x, motion.y + 0.09F, motion.z);
+                    player.setDeltaMovement(motion.x, motion.y + 0.085F, motion.z);
                 }
             }
         }
-        if (onGround(player)) {
-            flightTime = 0;
-        }
+        if (onGround(player) && flightTime > 0) flightTime--;
     }
 
     private static boolean onGround(Player player) {
