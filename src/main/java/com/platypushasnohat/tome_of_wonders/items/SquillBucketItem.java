@@ -1,6 +1,6 @@
 package com.platypushasnohat.tome_of_wonders.items;
 
-import com.platypushasnohat.tome_of_wonders.registry.TOWEntities;
+import com.platypushasnohat.tome_of_wonders.registry.TomeEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.stats.Stats;
@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 public class SquillBucketItem extends TOWMobBucketItem {
 
     public SquillBucketItem(Properties properties) {
-        super(TOWEntities.SQUILL, Fluids.EMPTY, properties);
+        super(TomeEntities.SQUILL.get(), Fluids.EMPTY, properties);
     }
 
     @Override

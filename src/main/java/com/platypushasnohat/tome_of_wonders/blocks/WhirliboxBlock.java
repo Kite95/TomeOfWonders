@@ -1,11 +1,13 @@
 package com.platypushasnohat.tome_of_wonders.blocks;
 
+import com.mojang.serialization.MapCodec;
 import com.platypushasnohat.tome_of_wonders.blocks.blockentity.WhirliboxBlockEntity;
-import com.platypushasnohat.tome_of_wonders.registry.TOWBlockEntities;
+import com.platypushasnohat.tome_of_wonders.registry.TomeBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BarrelBlock;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
@@ -22,12 +24,18 @@ import org.jetbrains.annotations.Nullable;
 
 public class WhirliboxBlock extends BaseEntityBlock {
 
+    public static final MapCodec<WhirliboxBlock> CODEC = simpleCodec(WhirliboxBlock::new);
     public static final DirectionProperty FACING = BlockStateProperties.FACING;
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
 
     public WhirliboxBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(defaultBlockState().setValue(POWERED, false).setValue(FACING, Direction.NORTH));
+    }
+
+    @Override
+    protected @NotNull MapCodec<WhirliboxBlock> codec() {
+        return CODEC;
     }
 
     @Override
@@ -69,6 +77,6 @@ public class WhirliboxBlock extends BaseEntityBlock {
     @Override
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return WhirliboxBlock.createTickerHelper(blockEntityType, TOWBlockEntities.WHIRLIBOX_BLOCK_ENTITY.get(), WhirliboxBlockEntity::tick);
+        return WhirliboxBlock.createTickerHelper(blockEntityType, TomeBlockEntities.WHIRLIBOX_BLOCK_ENTITY.get(), WhirliboxBlockEntity::tick);
     }
 }

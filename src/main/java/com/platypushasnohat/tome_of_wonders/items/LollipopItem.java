@@ -13,7 +13,7 @@ import net.minecraft.world.level.Level;
 public class LollipopItem extends SwordItem {
 
     public LollipopItem(Properties properties) {
-        super(TOWItemTiers.CANDY, 2, -2.4F, properties);
+        super(TOWItemTiers.CANDY, properties);
     }
 
     @Override

@@ -6,8 +6,8 @@ import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 @SuppressWarnings("FieldCanBeLocal, unused")
@@ -43,7 +43,7 @@ public class WhirlicapModel extends HumanoidModel<LivingEntity> {
 	}
 
 	public WhirlicapModel withAnimations(LivingEntity entity) {
-		float partialTicks = Minecraft.getInstance().getFrameTime();
+		float partialTicks = Minecraft.getInstance().getTimer().getRealtimeDeltaTicks();
 		float rotation = entity.isInWaterOrBubble() ? 0.05F : (entity.level().isThundering() ? 0.5F : entity.level().isRaining() ? 0.2F : 0.1F);
 		float speed = entity.getDeltaMovement().y > 0.05D ? 4 * rotation : 1 * rotation;
 		this.whirligig.yRot = (entity.tickCount + partialTicks) * speed % ((float) Math.PI * 2F);

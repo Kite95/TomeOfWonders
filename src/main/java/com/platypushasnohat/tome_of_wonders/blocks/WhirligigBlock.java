@@ -1,7 +1,8 @@
 package com.platypushasnohat.tome_of_wonders.blocks;
 
+import com.mojang.serialization.MapCodec;
 import com.platypushasnohat.tome_of_wonders.blocks.blockentity.WhirligigBlockEntity;
-import com.platypushasnohat.tome_of_wonders.registry.TOWBlockEntities;
+import com.platypushasnohat.tome_of_wonders.registry.TomeBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -23,10 +24,12 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class WhirligigBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
 
+    public static final MapCodec<WhirligigBlock> CODEC = simpleCodec(WhirligigBlock::new);
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final IntegerProperty ROTATION = BlockStateProperties.ROTATION_16;
     public static final IntegerProperty WIND_STRENGTH = IntegerProperty.create("wind_strength", 0, 15);
@@ -36,6 +39,11 @@ public class WhirligigBlock extends BaseEntityBlock implements SimpleWaterlogged
     public WhirligigBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(ROTATION, 0).setValue(WIND_STRENGTH, 0).setValue(WATERLOGGED, false));
+    }
+
+    @Override
+    protected @NotNull MapCodec<WhirligigBlock> codec() {
+        return CODEC;
     }
 
     public static void updatePower(BlockState state, Level level, BlockPos pos) {
@@ -142,7 +150,7 @@ public class WhirligigBlock extends BaseEntityBlock implements SimpleWaterlogged
     @Override
     @Nullable
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return WhirliboxBlock.createTickerHelper(blockEntityType, TOWBlockEntities.WHIRLIGIG_BLOCK_ENTITY.get(), WhirligigBlockEntity::tick);
+        return WhirliboxBlock.createTickerHelper(blockEntityType, TomeBlockEntities.WHIRLIGIG_BLOCK_ENTITY.get(), WhirligigBlockEntity::tick);
     }
 
     @Override

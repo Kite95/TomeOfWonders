@@ -14,11 +14,7 @@ public class TOWEntityTags {
         return entityTag(TomeOfWonders.MOD_ID, name);
     }
 
-    private static TagKey<EntityType<?>> forgeEntityTag(String name) {
-        return entityTag("forge", name);
-    }
-
     public static TagKey<EntityType<?>> entityTag(String modid, String name) {
-        return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(modid, name));
+        return TagKey.create(Registries.ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath(modid, name));
     }
 }

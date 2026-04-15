@@ -1,19 +1,14 @@
 package com.platypushasnohat.tome_of_wonders.client.renderer.items;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.platypushasnohat.tome_of_wonders.client.models.armor.WhirlicapModel;
 import com.platypushasnohat.tome_of_wonders.items.WhirlicapItem;
-import com.platypushasnohat.tome_of_wonders.registry.TOWModelLayers;
+import com.platypushasnohat.tome_of_wonders.registry.TomeModelLayers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.model.Model;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 
 public class TOWArmorRenderProperties implements IClientItemExtensions {
 
@@ -23,7 +18,7 @@ public class TOWArmorRenderProperties implements IClientItemExtensions {
 
     public static void initializeModels() {
         init = true;
-        WHIRLICAP_MODEL = new WhirlicapModel(Minecraft.getInstance().getEntityModels().bakeLayer(TOWModelLayers.WHIRLICAP));
+        WHIRLICAP_MODEL = new WhirlicapModel(Minecraft.getInstance().getEntityModels().bakeLayer(TomeModelLayers.WHIRLICAP));
     }
 
     @Override
@@ -40,9 +35,5 @@ public class TOWArmorRenderProperties implements IClientItemExtensions {
         }
 
         return humanoidModel;
-    }
-
-    public static void renderCustomArmor(PoseStack poseStack, MultiBufferSource multiBufferSource, int light, ItemStack itemStack, ArmorItem armorItem, Model armorModel, boolean legs, ResourceLocation texture) {
-
     }
 }

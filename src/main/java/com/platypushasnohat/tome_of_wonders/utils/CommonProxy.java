@@ -1,9 +1,9 @@
 package com.platypushasnohat.tome_of_wonders.utils;
 
 import com.platypushasnohat.tome_of_wonders.TomeOfWonders;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
 
-@Mod.EventBusSubscriber(modid = TomeOfWonders.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = TomeOfWonders.MOD_ID)
 public class CommonProxy {
     public void init() {
     }

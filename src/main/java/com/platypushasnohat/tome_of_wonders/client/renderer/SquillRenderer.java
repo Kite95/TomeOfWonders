@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import com.platypushasnohat.tome_of_wonders.client.models.SquillModel;
 import com.platypushasnohat.tome_of_wonders.entities.Squill;
-import com.platypushasnohat.tome_of_wonders.registry.TOWModelLayers;
+import com.platypushasnohat.tome_of_wonders.registry.TomeModelLayers;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -12,8 +12,9 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
@@ -23,26 +24,26 @@ import static com.platypushasnohat.tome_of_wonders.TomeOfWonders.modPrefix;
 @OnlyIn(Dist.CLIENT)
 public class SquillRenderer extends MobRenderer<Squill, SquillModel> {
 
-    private static final ResourceLocation TEXTURE = modPrefix("textures/entity/squill/squill.png");
-    private static final ResourceLocation TEXTURE_AGGRO = modPrefix("textures/entity/squill/squill_aggro.png");
+    private static final ResourceLocation TEXTURE = modPrefix("textures/entity/mob/squill/squill.png");
+    private static final ResourceLocation TEXTURE_AGGRO = modPrefix("textures/entity/mob/squill/squill_aggro.png");
 
     public SquillRenderer(EntityRendererProvider.Context context) {
-        super(context, new SquillModel(context.bakeLayer(TOWModelLayers.SQUILL)), 0.4F);
+        super(context, new SquillModel(context.bakeLayer(TomeModelLayers.SQUILL)), 0.4F);
     }
 
     @Override
-    public ResourceLocation getTextureLocation(Squill entity) {
+    public @NotNull ResourceLocation getTextureLocation(Squill entity) {
         if (entity.isAttacking()) return TEXTURE_AGGRO;
         else return TEXTURE;
     }
 
     @Override
-    protected @Nullable RenderType getRenderType(Squill entity, boolean bodyVisible, boolean translucent, boolean glowing) {
+    protected @Nullable RenderType getRenderType(@NotNull Squill entity, boolean bodyVisible, boolean translucent, boolean glowing) {
         return RenderType.entityTranslucent(getTextureLocation(entity));
     }
 
     @Override
-    protected void scale(Squill entity, PoseStack poseStack, float partialTicks) {
+    protected void scale(Squill entity, @NotNull PoseStack poseStack, float partialTicks) {
         float alpha = 1.0F - (0.25F + 0.25F * (float) Math.sin(entity.tickCount * 0.02F)) * entity.getAlphaProgress(partialTicks);
         this.model.setAlpha(alpha);
     }

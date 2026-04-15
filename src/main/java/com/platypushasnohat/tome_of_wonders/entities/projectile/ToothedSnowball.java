@@ -1,7 +1,7 @@
 package com.platypushasnohat.tome_of_wonders.entities.projectile;
 
-import com.platypushasnohat.tome_of_wonders.registry.TOWEntities;
-import com.platypushasnohat.tome_of_wonders.registry.TOWItems;
+import com.platypushasnohat.tome_of_wonders.registry.TomeEntities;
+import com.platypushasnohat.tome_of_wonders.registry.TomeItems;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -15,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import org.jetbrains.annotations.NotNull;
 
 public class ToothedSnowball extends ThrowableItemProjectile {
 
@@ -23,20 +24,20 @@ public class ToothedSnowball extends ThrowableItemProjectile {
     }
 
     public ToothedSnowball(Level level, LivingEntity entity) {
-        super(TOWEntities.TOOTHED_SNOWBALL.get(), entity, level);
+        super(TomeEntities.TOOTHED_SNOWBALL.get(), entity, level);
     }
 
     public ToothedSnowball(Level level, double x, double y, double z) {
-        super(TOWEntities.TOOTHED_SNOWBALL.get(), x, y, z, level);
+        super(TomeEntities.TOOTHED_SNOWBALL.get(), x, y, z, level);
     }
 
     @Override
-    protected Item getDefaultItem() {
-        return TOWItems.TOOTHED_SNOWBALL.get();
+    protected @NotNull Item getDefaultItem() {
+        return TomeItems.TOOTHED_SNOWBALL.get();
     }
 
     @Override
-    protected void onHit(HitResult hitResult) {
+    protected void onHit(@NotNull HitResult hitResult) {
         super.onHit(hitResult);
         if (!this.level().isClientSide) {
             this.level().broadcastEntityEvent(this, (byte) 3);
@@ -45,7 +46,7 @@ public class ToothedSnowball extends ThrowableItemProjectile {
     }
 
     @Override
-    protected void onHitEntity(EntityHitResult hitResult) {
+    protected void onHitEntity(@NotNull EntityHitResult hitResult) {
         super.onHitEntity(hitResult);
         Entity entity = hitResult.getEntity();
         int damage = entity instanceof Blaze ? 5 : 2;
@@ -54,7 +55,7 @@ public class ToothedSnowball extends ThrowableItemProjectile {
     }
 
     private ParticleOptions getParticle() {
-        ItemStack itemstack = this.getItemRaw();
+        ItemStack itemstack = this.getItem();
         return itemstack.isEmpty() ? ParticleTypes.ITEM_SNOWBALL : new ItemParticleOption(ParticleTypes.ITEM, itemstack);
     }
 

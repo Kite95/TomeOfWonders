@@ -4,12 +4,14 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.platypushasnohat.tome_of_wonders.client.animations.SquillAnimations;
 import com.platypushasnohat.tome_of_wonders.entities.Squill;
+import com.platypushasnohat.tome_of_wonders.utils.ColorUtils;
 import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 
 @OnlyIn(Dist.CLIENT)
 @SuppressWarnings("FieldCanBeLocal, unused")
@@ -90,15 +92,19 @@ public class SquillModel extends HierarchicalModel<Squill> {
 		this.animate(entity.aggroAnimationState, SquillAnimations.AGGRO, ageInTicks);
 	}
 
-	@Override
-	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		poseStack.pushPose();
-		this.root.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha * this.alpha);
-		poseStack.popPose();
-	}
+    @Override
+    public void renderToBuffer(@NotNull PoseStack poseStack, @NotNull VertexConsumer vertexConsumer, int packedLight, int packedOverlay, int color) {
+        poseStack.pushPose();
+        float red = ColorUtils.unpackRed(color);
+        float green = ColorUtils.unpackGreen(color);
+        float blue = ColorUtils.unpackBlue(color);
+        float modelAlpha = ColorUtils.unpackAlpha(color);
+        this.root().render(poseStack, vertexConsumer, packedLight, packedOverlay, ColorUtils.packColor(red, green, blue, modelAlpha * alpha));
+        poseStack.popPose();
+    }
 
 	@Override
-	public ModelPart root() {
+	public @NotNull ModelPart root() {
 		return this.root;
 	}
 

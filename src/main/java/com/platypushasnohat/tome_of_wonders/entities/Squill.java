@@ -5,10 +5,10 @@ import com.platypushasnohat.tome_of_wonders.entities.ai.goals.SquillAttackGoal;
 import com.platypushasnohat.tome_of_wonders.entities.ai.goals.SquillPanicGoal;
 import com.platypushasnohat.tome_of_wonders.entities.ai.goals.SquillWanderGoal;
 import com.platypushasnohat.tome_of_wonders.entities.ai.utils.SquillMoveControl;
-import com.platypushasnohat.tome_of_wonders.registry.TOWEntities;
-import com.platypushasnohat.tome_of_wonders.registry.TOWItems;
-import com.platypushasnohat.tome_of_wonders.registry.TOWParticles;
-import com.platypushasnohat.tome_of_wonders.registry.TOWSoundEvents;
+import com.platypushasnohat.tome_of_wonders.registry.TomeEntities;
+import com.platypushasnohat.tome_of_wonders.registry.TomeItems;
+import com.platypushasnohat.tome_of_wonders.registry.TomeParticles;
+import com.platypushasnohat.tome_of_wonders.registry.TomeSoundEvents;
 import com.platypushasnohat.tome_of_wonders.registry.tags.TOWEntityTags;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
@@ -147,14 +147,14 @@ public class Squill extends PathfinderMob implements FlyingAnimal, Bucketable {
             }
         }
 
-        this.playSound(TOWSoundEvents.SQUILL_SQUIRT.get(), this.getSoundVolume(), this.getVoicePitch());
+        this.playSound(TomeSoundEvents.SQUILL_SQUIRT.get(), this.getSoundVolume(), this.getVoicePitch());
         Vec3 vec3 = this.rotateVector(new Vec3(0.0D, 0.0D, 0.0D)).add(this.getX(), this.getY(), this.getZ());
 
         for (int i = 0; i < 30; ++i) {
             Vec3 vec31 = this.rotateVector(new Vec3((double) this.random.nextFloat() * 0.6D - 0.3D, -1.0D, (double) this.random.nextFloat() * 0.6D - 0.3D));
             Vec3 vec32 = vec31.scale(0.3D + (double) (this.random.nextFloat() * 2.0F));
 
-            ((ServerLevel) this.level()).sendParticles(TOWParticles.WHIRLIWIND.get(), vec3.x, vec3.y, vec3.z, 0, vec32.x, vec32.y, vec32.z, 0.1F);
+            ((ServerLevel) this.level()).sendParticles(TomeParticles.WHIRLIWIND.get(), vec3.x, vec3.y, vec3.z, 0, vec32.x, vec32.y, vec32.z, 0.1F);
         }
     }
 
@@ -226,7 +226,7 @@ public class Squill extends PathfinderMob implements FlyingAnimal, Bucketable {
 
         Vec3 vec3 = this.getDeltaMovement();
         double d0 = vec3.horizontalDistance();
-        this.xBodyRot += (-((float)Mth.atan2(d0, vec3.y)) * (180F / (float)Math.PI) - this.xBodyRot) * 0.1F;
+        this.xBodyRot += (-((float) Mth.atan2(d0, vec3.y)) * (180F / (float)Math.PI) - this.xBodyRot) * 0.1F;
     }
 
     public void setupAnimationStates() {
@@ -246,11 +246,11 @@ public class Squill extends PathfinderMob implements FlyingAnimal, Bucketable {
     }
 
     @Override
-    protected void defineSynchedData() {
-        super.defineSynchedData();
-        this.entityData.define(ATTACKING, false);
-        this.entityData.define(FROM_BUCKET, false);
-        this.entityData.define(COMBAT_COOLDOWN, 0);
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(ATTACKING, false);
+        builder.define(FROM_BUCKET, false);
+        builder.define(COMBAT_COOLDOWN, 0);
     }
 
     @Override
@@ -312,9 +312,6 @@ public class Squill extends PathfinderMob implements FlyingAnimal, Bucketable {
     @Override
     public void saveToBucketTag(@NotNull ItemStack stack) {
         Bucketable.saveDefaultDataToBucketTag(this, stack);
-        if (this.hasCustomName()) {
-            stack.setHoverName(this.getCustomName());
-        }
     }
 
     @Override
@@ -324,7 +321,7 @@ public class Squill extends PathfinderMob implements FlyingAnimal, Bucketable {
 
     @Override
     public @NotNull ItemStack getBucketItemStack() {
-        return TOWItems.SQUILL_BUCKET.get().getDefaultInstance();
+        return TomeItems.SQUILL_BUCKET.get().getDefaultInstance();
     }
 
     @Override
@@ -332,22 +329,16 @@ public class Squill extends PathfinderMob implements FlyingAnimal, Bucketable {
         return SoundEvents.BUCKET_FILL_FISH;
     }
 
-//    @Override
-//    @Nullable
-//    protected SoundEvent getAmbientSound() {
-//        return SLSoundEvents.FISH_IDLE.get();
-//    }
-
     @Override
     @Nullable
     protected SoundEvent getDeathSound() {
-        return TOWSoundEvents.SQUILL_DEATH.get();
+        return TomeSoundEvents.SQUILL_DEATH.get();
     }
 
     @Override
     @Nullable
     protected SoundEvent getHurtSound(@NotNull DamageSource source) {
-        return TOWSoundEvents.SQUILL_HURT.get();
+        return TomeSoundEvents.SQUILL_HURT.get();
     }
 
     @Override
@@ -387,13 +378,13 @@ public class Squill extends PathfinderMob implements FlyingAnimal, Bucketable {
 
     @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(@NotNull ServerLevelAccessor level, @NotNull DifficultyInstance difficulty, @NotNull MobSpawnType spawnType, @Nullable SpawnGroupData spawnData, @Nullable CompoundTag compoundTag) {
+    public SpawnGroupData finalizeSpawn(@NotNull ServerLevelAccessor level, @NotNull DifficultyInstance difficulty, @NotNull MobSpawnType spawnType, @Nullable SpawnGroupData spawnData) {
         int spawnHeight = Math.min((this.blockPosition().getY() + TomeOfWondersConfig.SQUILL_SPAWN_HEIGHT.get()), this.level().getMaxBuildHeight());
         if (spawnType == MobSpawnType.NATURAL || spawnType == MobSpawnType.CHUNK_GENERATION) {
             this.moveTo(this.getX(), spawnHeight, this.getZ(), this.getYRot(), this.getXRot());
             if (TomeOfWondersConfig.SQUILL_SCHOOL_SPAWNING.get()) this.spawnSchool();
         }
-        return super.finalizeSpawn(level, difficulty, spawnType, spawnData, compoundTag);
+        return super.finalizeSpawn(level, difficulty, spawnType, spawnData);
     }
 
     private void spawnSchool() {
@@ -401,7 +392,7 @@ public class Squill extends PathfinderMob implements FlyingAnimal, Bucketable {
         if (schoolCount > 0 && !this.level().isClientSide()) {
             for (int i = 0; i < schoolCount; i++) {
                 float distance = 1.5F;
-                Squill entity = new Squill(TOWEntities.SQUILL.get(), this.level());
+                Squill entity = new Squill(TomeEntities.SQUILL.get(), this.level());
                 entity.moveTo(this.getX() + this.getRandom().nextFloat() * distance, this.getY() + this.getRandom().nextFloat() * distance, this.getZ() + this.getRandom().nextFloat() * distance);
                 this.level().addFreshEntity(entity);
             }

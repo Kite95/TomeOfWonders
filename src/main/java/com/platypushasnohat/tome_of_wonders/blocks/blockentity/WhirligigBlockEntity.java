@@ -1,7 +1,7 @@
 package com.platypushasnohat.tome_of_wonders.blocks.blockentity;
 
 import com.platypushasnohat.tome_of_wonders.blocks.WhirligigBlock;
-import com.platypushasnohat.tome_of_wonders.registry.TOWBlockEntities;
+import com.platypushasnohat.tome_of_wonders.registry.TomeBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.level.Level;
@@ -16,7 +16,7 @@ public class WhirligigBlockEntity extends BlockEntity {
     public float activeRotation;
 
     public WhirligigBlockEntity(BlockPos pos, BlockState state) {
-        super(TOWBlockEntities.WHIRLIGIG_BLOCK_ENTITY.get(), pos, state);
+        super(TomeBlockEntities.WHIRLIGIG_BLOCK_ENTITY.get(), pos, state);
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, WhirligigBlockEntity whirligig) {

@@ -16,12 +16,10 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.function.Supplier;
-
 public class TOWMobBucketItem extends MobBucketItem {
 
-    public TOWMobBucketItem(Supplier<? extends EntityType<?>> entity, Fluid fluid, Item.Properties properties) {
-        super(entity, () -> fluid, () -> SoundEvents.BUCKET_EMPTY_FISH, properties);
+    public TOWMobBucketItem(EntityType<?> type, Fluid fluid, Item.Properties properties) {
+        super(type, fluid, SoundEvents.BUCKET_EMPTY_FISH, properties);
     }
 
     @Override

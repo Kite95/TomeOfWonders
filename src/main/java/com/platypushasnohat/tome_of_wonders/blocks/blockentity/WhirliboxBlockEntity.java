@@ -1,8 +1,8 @@
 package com.platypushasnohat.tome_of_wonders.blocks.blockentity;
 
 import com.platypushasnohat.tome_of_wonders.blocks.WhirliboxBlock;
-import com.platypushasnohat.tome_of_wonders.registry.TOWBlockEntities;
-import com.platypushasnohat.tome_of_wonders.registry.TOWParticles;
+import com.platypushasnohat.tome_of_wonders.registry.TomeBlockEntities;
+import com.platypushasnohat.tome_of_wonders.registry.TomeParticles;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
@@ -18,7 +18,7 @@ import net.minecraft.world.phys.Vec3;
 public class WhirliboxBlockEntity extends BlockEntity {
 
     public WhirliboxBlockEntity(BlockPos pos, BlockState state) {
-        super(TOWBlockEntities.WHIRLIBOX_BLOCK_ENTITY.get(), pos, state);
+        super(TomeBlockEntities.WHIRLIBOX_BLOCK_ENTITY.get(), pos, state);
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, WhirliboxBlockEntity whirlibox) {
@@ -51,7 +51,7 @@ public class WhirliboxBlockEntity extends BlockEntity {
             }
         }
 
-        if (level.isClientSide()) {
+        if (level.isClientSide) {
             double xOff = direction.getStepX() * 0.15F;
             double yOff = direction.getStepY() * 0.15F;
             double zOff = direction.getStepZ() * 0.15F;
@@ -66,9 +66,9 @@ public class WhirliboxBlockEntity extends BlockEntity {
                     double z = targetPos.getZ() + getParticlePos(zOff, level.random, particleOffset);
 
                     if (level.getBlockState(targetPos).is(Blocks.WATER)) {
-                        level.addParticle(TOWParticles.WHIRLIBUBBLE.get(), x, y, z, xOff, yOff, zOff);
+                        level.addParticle(TomeParticles.WHIRLIBUBBLE.get(), x, y, z, xOff, yOff, zOff);
                     } else {
-                        level.addParticle(TOWParticles.WHIRLIWIND.get(), x, y, z, xOff, yOff, zOff);
+                        level.addParticle(TomeParticles.WHIRLIWIND.get(), x, y, z, xOff, yOff, zOff);
                     }
                 }
             }

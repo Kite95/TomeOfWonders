@@ -5,7 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.platypushasnohat.tome_of_wonders.blocks.WhirligigBlock;
 import com.platypushasnohat.tome_of_wonders.blocks.blockentity.WhirligigBlockEntity;
-import com.platypushasnohat.tome_of_wonders.registry.TOWModelLayers;
+import com.platypushasnohat.tome_of_wonders.registry.TomeModelLayers;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
@@ -16,13 +16,15 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Quaternionf;
 
 import static com.platypushasnohat.tome_of_wonders.TomeOfWonders.modPrefix;
 
 @OnlyIn(Dist.CLIENT)
+@SuppressWarnings("deprecation")
 public class WhirligigRenderer implements BlockEntityRenderer<WhirligigBlockEntity> {
 
     public static final Material TEXTURE = new Material(TextureAtlas.LOCATION_BLOCKS, modPrefix("block/whirligig"));
@@ -32,7 +34,7 @@ public class WhirligigRenderer implements BlockEntityRenderer<WhirligigBlockEnti
     private final ModelPart spinner2;
 
     public WhirligigRenderer(BlockEntityRendererProvider.Context context) {
-        ModelPart modelPart = context.bakeLayer(TOWModelLayers.WHIRLIGIG);
+        ModelPart modelPart = context.bakeLayer(TomeModelLayers.WHIRLIGIG);
         this.root = modelPart.getChild("root");
         this.spinner = modelPart.getChild("spinner");
         this.spinner2 = modelPart.getChild("spinner2");
@@ -55,7 +57,7 @@ public class WhirligigRenderer implements BlockEntityRenderer<WhirligigBlockEnti
     }
 
     @Override
-    public void render(WhirligigBlockEntity whirligig, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int light, int overlay) {
+    public void render(WhirligigBlockEntity whirligig, float partialTicks, PoseStack poseStack, @NotNull MultiBufferSource bufferSource, int light, int overlay) {
         VertexConsumer vertexConsumer = TEXTURE.buffer(bufferSource, RenderType::entityCutout);
 
         BlockState state = whirligig.getBlockState();
